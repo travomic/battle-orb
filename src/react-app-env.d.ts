@@ -2,6 +2,13 @@
 /// <reference types="react" />
 /// <reference types="react-dom" />
 
+interface ImportMeta {
+  env: {
+    readonly VITE_AUTH0_CLIENT: string;
+    readonly VITE_AUTH0_DOMAIN: string;
+  };
+}
+
 declare namespace NodeJS {
   interface Process{
     env: ProcessEnv
@@ -17,9 +24,6 @@ declare namespace NodeJS {
      * 
      */
     readonly NODE_ENV: 'development' | 'production'
-    readonly VITE_AUTH0_CLIENT: string;
-    readonly VITE_AUTH0_DOMAIN: string;
-    readonly VITE_TEST_VAR: string;
   }
 }
 
