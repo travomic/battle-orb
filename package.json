@@ -3,9 +3,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "dotenv-load vite",
-    "build": "npm run with:env && tsc && vite build",
-    "gen:gql": "graphql-codegen --config codegen.yml",
-    "with:env": "VITE_AUTH0_CLIENT=${AUTH0_CLIENT:=MISSING_CLIENT} VITE_AUTH0_DOMAIN=${AUTH0_DOMAIN:=MISSING_DOMAIN} VITE_AUTH0_REDIRECT_URI=${AUTH0_REDIRECT_URI:=MISSING_REDIRECT_URI} "
+    "build": "tsc && vite build",
+    "gen:gql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.12.1",
