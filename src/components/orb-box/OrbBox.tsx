@@ -88,13 +88,14 @@ export const OrbBox = ({ rows, scale }: IProps) => {
             </button>
 
             {['north', 'south'].map(hemi => (
-              <ul className={`hemi hemi--${hemi}`}>
+              <ul key={hemi} className={`hemi hemi--${hemi}`}>
                 {[0,1,2,3,4,5].map(face => (
-                  <li className={`face face--${face}`}
+                  <li key={`face-${face}`}
+                    className={`face face--${face}`}
                     style={faceStyle(face)}
                   >
-                    {tiles.map((tile: any, tileIndex: number) => (
-                      <button
+                    {tiles.map((tile: TFaceTile, tileIndex: number) => (
+                      <button key={`tile-${tileIndex}`}
                         className={`tile tile-${tileIndex}`}
                         data-stream--click="tileClick$"
                         data-style={tile.style}
