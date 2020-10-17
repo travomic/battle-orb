@@ -2,7 +2,10 @@
   "name": "battle-orb",
   "version": "0.0.1",
   "scripts": {
-    "dev": "dotenv-load vite",
+    "with:env": "VITE_TEST_VAR=${VITE_TEST_VAR:=MISSING_TEST_VAR}",
+    "predev:alt": "echo $VITE_TEST_VAR",
+    "dev": "vite",
+    "dev:alt": "npm run with:env && vite",
     "build": "dotenv-load tsc && dotenv-load vite build",
     "gen:gql": "graphql-codegen --config codegen.yml"
   },

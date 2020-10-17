@@ -4,13 +4,14 @@ import './index.css'
 import { AuLayout, OrbBox  } from './components';
 import getAuthClient from './authClient';
 
-
 const checkAuth = async () => {
   const authClient = await getAuthClient;
   console.log('authClient:', authClient);
 };
 
 checkAuth();
+
+console.log("who loves me?", process.env.VITE_TEST_VAR);
 
 ReactDOM.render(
   <React.StrictMode>
