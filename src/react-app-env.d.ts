@@ -17,6 +17,8 @@ declare namespace NodeJS {
      * 
      */
     readonly NODE_ENV: 'development' | 'production'
+    readonly VITE_AUTH0_CLIENT: string;
+    readonly VITE_AUTH0_DOMAIN: string;
   }
 }
 
