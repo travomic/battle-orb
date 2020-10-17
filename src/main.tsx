@@ -11,8 +11,6 @@ const checkAuth = async () => {
 
 checkAuth();
 
-console.log("who loves me?", process.env.VITE_TEST_VAR);
-
 ReactDOM.render(
   <React.StrictMode>
     <AuLayout title={`battle.orb.zone`} year={2020}>
