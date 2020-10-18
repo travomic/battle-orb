@@ -11,6 +11,7 @@ import { streams } from './streams';
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
+      audience={import.meta.env.VITE_AUTH0_AUDIENCE}
       clientId={import.meta.env.VITE_AUTH0_CLIENT}
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       redirectUri={import.meta.env.VITE_AUTH0_REDIRECT_URI}
