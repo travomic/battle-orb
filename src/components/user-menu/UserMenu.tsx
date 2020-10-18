@@ -4,7 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 interface IProps {
 }
 
-export const UserMenu = ({ }: IProps) => {
+export const UserMenu = ({}: IProps) => {
   const { 
     error,
     isAuthenticated,
