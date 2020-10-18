@@ -1,1 +1,1 @@
-declare module "callbag-subject";
+declare module "callbag-*";
