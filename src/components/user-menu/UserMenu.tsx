@@ -6,7 +6,6 @@ interface IProps {
 
 export const UserMenu = ({ authClient }: IProps) => {
   React.useEffect(() => {
-    
     console.log("authClient:", authClient);
   }, [authClient]);
 
