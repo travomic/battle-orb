@@ -24,3 +24,7 @@ _(To allow for production and local development.)_
 |Allowed Logout URLs|https://battle.orb.zone/logout,http://localhost:3000/logout|
 |Allowed Web Origins|https://battle.orb.zone,http://localhost:3000|
 |Allowed Origins (CORS)|https://battle.orb.zone,http://localhost:3000|
+
+## Some more articles about the technologies I chose to use...
+
+- [Comparing Callbags to RxJS](https://egghead.io/articles/comparing-callbags-to-rxjs-for-reactive-programming)

@@ -1,9 +1,16 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
-
 import { OrbBox } from '../components';
 
-export const LobbyPage = ({}: RouteComponentProps) => {
+interface IProps extends RouteComponentProps {
+  streams: any;
+}
+
+export const LobbyPage = ({streams}: IProps) => {
+  React.useEffect(() => {
+    console.log("STREAMS:", streams);
+  }, [streams])
+
   return (
     <section>
       <h2>LOBBY</h2>
