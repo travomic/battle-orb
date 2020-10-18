@@ -5,7 +5,7 @@ import { Router } from '@reach/router';
 
 import './index.css';
 import { AuLayout, UserMenu } from './components';
-import { AuthPage, LobbyPage } from './pages';
+import { AuthPage, GamePage, LobbyPage } from './pages';
 import { streams } from './streams';
 
 ReactDOM.render(
@@ -24,6 +24,7 @@ ReactDOM.render(
         <Router>
           <LobbyPage path="/" streams={streams} />
           <AuthPage path="/auth" />
+          <GamePage path="/game" streams={streams} />
         </Router>
       </AuLayout>
     </Auth0Provider>

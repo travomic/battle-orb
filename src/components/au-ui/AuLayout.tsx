@@ -1,7 +1,14 @@
 import React from 'react';
 import classes from './au-ui.module.styl';
 import { useAuth0 } from '@auth0/auth0-react';
-import { createClient, Provider as QueryProvider } from 'urql';
+import { 
+  createClient, 
+  dedupExchange, 
+  cacheExchange, 
+  fetchExchange, 
+  Provider as QueryProvider
+} from 'urql';
+import { fetchOptionsExchange } from './fetchOptionsExchange';
 
 interface IProps {
   apiURL: string;
@@ -18,18 +25,27 @@ export const AuLayout = ({
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
   async function getAuthenticatedHeaders() {
-    return await getAccessTokenSilently().then(accessToken => ({
-      headers: {
+    return await getAccessTokenSilently().then(accessToken => {
+      return {
         Authorization: 'Bearer ' + accessToken
-      }
-    })
-  )};
-
-  const getAPIOptions = () => isAuthenticated ? getAuthenticatedHeaders() : {};
+      };
+    });
+  };
 
   const graphQLClient = createClient({
     url: apiURL,
-    fetchOptions: getAPIOptions()
+    exchanges: [
+      dedupExchange,
+      cacheExchange,
+      fetchOptionsExchange(async (fetchOptions: any) => {
+        const result = {
+          ...fetchOptions,
+          headers: isAuthenticated ? await getAuthenticatedHeaders() : {},
+        }
+        return Promise.resolve(result);
+      }),
+      fetchExchange,
+    ],
   });
 
   return (
