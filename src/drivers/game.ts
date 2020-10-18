@@ -1,0 +1,1 @@
+export const TEMP_GAME_VALUE = 333;
