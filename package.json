@@ -7,6 +7,7 @@
     "gen:gql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@auth0/auth0-react": "^1.1.0",
     "@auth0/auth0-spa-js": "^1.12.1",
     "@pika/react": "^16.13.1",
     "@pika/react-dom": "^16.13.1",

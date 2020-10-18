@@ -1,26 +1,30 @@
 import * as React from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface IProps {
-  authClient: any;
 }
 
-export const UserMenu = ({ authClient }: IProps) => {
-  React.useEffect(() => {
-    console.log("authClient:", authClient);
-  }, [authClient]);
-
-  const handleLogin = async () => {
-    await authClient.loginWithRedirect({
-      redirect_uri: import.meta.env.VITE_AUTH0_REDIRECT_URI
-    });
-
-    const user = await authClient.getUser();
-    console.log('USER:', user);
-  }
+export const UserMenu = ({ }: IProps) => {
+  const { 
+    error,
+    isAuthenticated,
+    isLoading,
+    user,
+    loginWithRedirect,
+    logout
+  } = useAuth0();
 
   return (
     <nav>
-      <button onClick={handleLogin}>LOGIN</button>
+      {isLoading ? '...' : '⭐️'}
+      {isAuthenticated ? '👍' : '👎'}
+      <pre>
+        {JSON.stringify(user, null, 2)}
+        ---
+        {JSON.stringify(error, null, 2)}
+      </pre>
+      <button onClick={loginWithRedirect}>LOG-IN</button>
+      <button onClick={() => logout}>LOG-OUT</button>
     </nav>
   );
 }

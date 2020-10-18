@@ -2,22 +2,21 @@ import * as React from 'react';
 import { useLocation, RouteComponentProps, Link } from '@reach/router';
 
 interface IProps extends RouteComponentProps {
-  authClient: any; // TODO: Type this, and move into a React.Context instead.
 }
 
-export const AuthPage = ({ authClient }: IProps) => {
+export const AuthPage = ({ }: IProps) => {
   const location = useLocation();
 
   React.useEffect(() => {
-    async function verifyAuthToken() {
-      const accessToken = await authClient.getTokenSilently();
-      console.log("ACCESS TOKEN:", accessToken);
-    }
+    // async function verifyAuthToken() {
+    //   const accessToken = await authClient.getTokenSilently();
+    //   console.log("ACCESS TOKEN:", accessToken);
+    // }
 
     console.log('AUTH RESPONSE:', location.search);
 
-    verifyAuthToken();
-  }, [authClient]);
+    // verifyAuthToken();
+  }, []);
 
   return (
     <section>
