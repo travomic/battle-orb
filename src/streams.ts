@@ -1,4 +1,7 @@
-import makeSubject from "callbag-subject";
+import makeSubject from 'callbag-subject';
+import observe from 'callbag-observe';
+
+import { makeTimeObserver } from './drivers/time';
 
 export function makeStreams() {
   return {
@@ -9,3 +12,5 @@ export function makeStreams() {
 }
 
 export const streams = makeStreams();
+
+observe(makeTimeObserver())(streams.time$);
