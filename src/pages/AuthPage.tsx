@@ -8,14 +8,7 @@ export const AuthPage = ({ }: IProps) => {
   const location = useLocation();
 
   React.useEffect(() => {
-    // async function verifyAuthToken() {
-    //   const accessToken = await authClient.getTokenSilently();
-    //   console.log("ACCESS TOKEN:", accessToken);
-    // }
-
     console.log('AUTH RESPONSE:', location.search);
-
-    // verifyAuthToken();
   }, []);
 
   return (

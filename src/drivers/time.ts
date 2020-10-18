@@ -34,7 +34,6 @@ const setupTimeStreams = () => {
           startWith({ type: 'RESUME' })
         ) : callbagOf({ type: 'PAUSE' })
     ),
-    mapTo('blah'),
     flatten
   )
 }

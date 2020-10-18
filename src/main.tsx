@@ -8,21 +8,25 @@ import { AuLayout, UserMenu } from './components';
 import { AuthPage, LobbyPage } from './pages';
 import { streams } from './streams';
 
-  ReactDOM.render(
-    <React.StrictMode>
-      <Auth0Provider
-        clientId={import.meta.env.VITE_AUTH0_CLIENT}
-        domain={import.meta.env.VITE_AUTH0_DOMAIN}
-        redirectUri={import.meta.env.VITE_AUTH0_REDIRECT_URI}
+ReactDOM.render(
+  <React.StrictMode>
+    <Auth0Provider
+      clientId={import.meta.env.VITE_AUTH0_CLIENT}
+      domain={import.meta.env.VITE_AUTH0_DOMAIN}
+      redirectUri={import.meta.env.VITE_AUTH0_REDIRECT_URI}
+    >
+      <AuLayout
+        apiURL={import.meta.env.VITE_GRAPHQL_URL}
+        title={`battle.orb.zone`}
+        year={2020}
       >
-        <AuLayout title={`battle.orb.zone`} year={2020}>
-          <UserMenu />
-          <Router>
-            <LobbyPage path="/" streams={streams} />
-            <AuthPage path="/auth" />
-          </Router>
-        </AuLayout>
-      </Auth0Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
-  )
+        <UserMenu />
+        <Router>
+          <LobbyPage path="/" streams={streams} />
+          <AuthPage path="/auth" />
+        </Router>
+      </AuLayout>
+    </Auth0Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
