@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import { OrbBox } from '../components';
 import { useQuery } from 'urql';
 
@@ -28,6 +28,10 @@ export const LobbyPage = ({streams}: IProps) => {
       <h2>LOBBY</h2>
 
       <b>COMING SOON...</b>
+      <Link to="/game">
+        Go to <b>Game</b> screen.
+      </Link>
+
       <OrbBox rows={4} scale={1} />
 
       <a rel="noopener"
