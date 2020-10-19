@@ -10,7 +10,10 @@ interface IProps extends RouteComponentProps {
 const GameQuery = `
   query GameInfo {
     game {
-      game_data
+      gameId
+      gameData
+      playerA
+      playerB
     }
   }
 `;
@@ -28,7 +31,7 @@ export const GamePage = ({ streams }: IProps) => {
       <ul>
         {data.game.map((g: any, gameIndex: number) => (
           <li key={`game.${gameIndex}`}><pre>
-            {JSON.stringify(g.data, null, 2)}
+            {JSON.stringify(g.gameId, null, 2)}
           </pre></li>
         ))}
       </ul>}

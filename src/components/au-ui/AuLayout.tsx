@@ -14,6 +14,7 @@ interface IProps {
   apiURL: string;
   title: string;
   year: number;
+  aside: React.ReactNode;
 }
 
 export const AuLayout = ({
@@ -21,6 +22,7 @@ export const AuLayout = ({
   children, 
   title, 
   year,
+  aside,
 }: React.PropsWithChildren<IProps>) => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
 
@@ -51,10 +53,21 @@ export const AuLayout = ({
   return (
     <QueryProvider value={graphQLClient}>
       <div className={classes.root}>
-        <header><h1>{title}</h1></header>
-        <main>{children}</main>
-        <aside></aside>
-        <footer>{year}</footer>
+        <header className={classes.head}>
+          <h1>{title}</h1>
+        </header>
+
+        <main className={classes.main}>
+          {children}
+        </main>
+
+        <aside className={classes.more}>
+          {aside}
+        </aside>
+
+        <footer className={classes.foot}>
+          {year}
+        </footer>
       </div>
     </QueryProvider>
   )
