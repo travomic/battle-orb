@@ -5,7 +5,7 @@ import { Router } from '@reach/router';
 
 import './index.css';
 import { AuLayout, UserMenu } from './components';
-import { AuthPage, GamePage, LobbyPage } from './pages';
+import { GamePage, LobbyPage } from './pages';
 import { streams } from './streams';
 
 ReactDOM.render(
@@ -20,11 +20,11 @@ ReactDOM.render(
         apiURL={import.meta.env.VITE_GRAPHQL_URL}
         title={`battle.orb.zone`}
         year={2020}
+        aside={<>[ASIDE]</>}
       >
-        <UserMenu />
+        <UserMenu logoutURL={import.meta.env.VITE_AUTH0_REDIRECT_URI} />
         <Router>
           <LobbyPage path="/" streams={streams} />
-          <AuthPage path="/auth" />
           <GamePage path="/game" streams={streams} />
         </Router>
       </AuLayout>
