@@ -6,19 +6,21 @@ import {
   dedupExchange, 
   cacheExchange, 
   fetchExchange, 
+  subscriptionExchange,
   Provider as QueryProvider
 } from 'urql';
 import { fetchOptionsExchange } from './fetchOptionsExchange';
+import { SubscriptionClient } from '../../modules/subscriptions-transport-ws';
 
 interface IProps {
-  apiURL: string;
+  apiURI: string;
   title: string;
   year: number;
   aside: React.ReactNode;
 }
 
 export const AuLayout = ({
-  apiURL,
+  apiURI,
   children, 
   title, 
   year,
@@ -34,8 +36,23 @@ export const AuLayout = ({
     });
   };
 
+  const subscriptionClient = new SubscriptionClient(
+    `ws:${apiURI}`,
+    {
+      reconnect: true,
+      connectionParams: {
+        authToken: async () => {
+          return await getAccessTokenSilently().then (accessToken => {
+            console.log('ACCESS TOKEN:', accessToken);
+            return accessToken;
+          })
+        }
+      }
+    }
+  );
+
   const graphQLClient = createClient({
-    url: apiURL,
+    url: `https:${apiURI}`,
     exchanges: [
       dedupExchange,
       cacheExchange,
@@ -47,6 +64,9 @@ export const AuLayout = ({
         return Promise.resolve(result);
       }),
       fetchExchange,
+      subscriptionExchange({
+        forwardSubscription: operation => subscriptionClient.request(operation)
+      })
     ],
   });
 
