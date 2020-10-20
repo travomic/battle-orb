@@ -17,7 +17,7 @@ ReactDOM.render(
       redirectUri={import.meta.env.VITE_AUTH0_REDIRECT_URI}
     >
       <AuLayout
-        apiURL={import.meta.env.VITE_GRAPHQL_URL}
+        apiURI={import.meta.env.VITE_GRAPHQL_URI}
         title={`battle.orb.zone`}
         year={2020}
         aside={<>[ASIDE]</>}
