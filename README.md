@@ -20,7 +20,7 @@ Following setup instructions from the following resources:
 - `callbag-basics` does not play well with Vite, and needed to be replaced with `callbag-basics-esmodules` instead.
 - `@auth0/auth0-react` is magical, providing crisp clean React hooks to provide login/authentication flow a breeze.
 - `urql` uses `wonka` under the hood, which aligns extremely well with the callbags I plan on using for the reactive-event streams.
-- Trying to leverage `subscriptions-transport-ws` for GQL subscriptions within an esmodules ecosystem, leads to a rough time... I have ended up copying the github repo sources, and converting them to typescript local imports by hand. (keeping the source LICENSE files, etc.)
+- Trying to leverage `subscriptions-transport-ws` for GQL subscriptions within an esmodules ecosystem, leads to a rough time... I have ended up copying the github repo sources, and converting them to typescript local imports by hand. _(keeping the source LICENSE files, etc.)_
 
 ## Here's how my Auth0 config settings look...
 _(To allow for production and local development.)_
@@ -34,3 +34,12 @@ _(To allow for production and local development.)_
 ## Some more articles about the technologies I chose to use...
 
 - [Comparing Callbags to RxJS](https://egghead.io/articles/comparing-callbags-to-rxjs-for-reactive-programming)
+
+## Here was my original plan of attack, with some incomplete TODO items...
+
+![Battle Orb Hackathon Plan Diagram](https://battle.orb.zone/diagrams/battle-orb-hackathon-plan.jpg)
+
+# TO BE CONTINUED...
+If it weren't for this Hackathon challenge, I would have continued to put off trying to build a boiler-plate project with my _"ideal"_ modern development tools and strategies.  I will abide by the rules and not commit any more changes to the `main` branch for the remainder of this week, however I will likely be pushing new commits onto the `next` topic-branch, as I listen to the presentations and try out more things.
+
+- **_THANKS!_** – Trave
