@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useSubscription } from 'urql';
 import { RouteComponentProps } from '@reach/router';
 import { OrbBox } from '../components';
-import { SUBSCRIBE_TO_MESSAGES } from '../graphql/queries/messages';
+import { SUBSCRIBE_TO_MESSAGES } from '../queries/messages';
 
 interface IProps extends RouteComponentProps {
   streams: any;
