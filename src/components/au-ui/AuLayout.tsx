@@ -37,7 +37,7 @@ export const AuLayout = ({
   };
 
   const subscriptionClient = new SubscriptionClient(
-    `ws:${apiURI}`,
+    `wss:${apiURI}`,
     {
       reconnect: true,
       connectionParams: {
