@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useMutation, useSubscription } from 'urql';
 import { SEND_CHAT, SUBSCRIBE_TO_CHAT } from '../../queries/chat';
-import { TEMP_USER_ID } from '../../constants';
+import { useSessionState } from '../../hooks';
 
 interface IProps {
   channel: string;
@@ -14,6 +14,7 @@ const handleSubscription = (chatLog: any[] = [], response: any) => {
 };
 
 export const ChatBox = ({ className, channel }: IProps) => {
+  const sess = useSessionState();
   const chatTextRef = React.useRef<any>(null);
   const [sendChatResult, sendChat] = useMutation(SEND_CHAT);
 
@@ -28,7 +29,7 @@ export const ChatBox = ({ className, channel }: IProps) => {
     sendChat({
       target: channel,
       text: text,
-      userId: TEMP_USER_ID
+      userId: sess.userUUID
     });
     chatTextRef.current.value = '';
   }

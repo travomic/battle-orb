@@ -79,24 +79,35 @@ function syncUserToHasura(user, context, callback) {
 
   request.post(payload, (error, _response, body) => {
     const namespace = "https://hasura.io/jwt/claims";
-    let userId, output;
+    const {app_metadata = {}} = user;
+
+    let userUUID, output;
+
     try {
       const jsonBody = JSON.parse(body);
-      userId = jsonBody.data[`insert_${configuration.DB_SCHEMA}_user`]
+      userUUID = jsonBody.data[`insert_${configuration.DB_SCHEMA}_user`]
         .returning[0].user_id;
     } catch (err) {
-      userId = 'N/A';
+      userUUID = 'N/A';
       output += JSON.stringify(err);
     }
+
+    app_metadata.user_uuid = userUUID;
     
     context.accessToken[namespace] =
     {
       'x-hasura-output': output,
-      'x-hasura-default-role': 'self',
+      'x-hasura-default-role': 'user',
       'x-hasura-allowed-roles': ['self','user'],
-      'x-hasura-user-id': userId,
+      'x-hasura-user-id': userUUID,
       'x-auth-key': authNonce,
     };
+
+    context.idToken[namespace] = 
+    {
+      authKey: authNonce,
+      userUUID: userUUID,
+    }
     
     callback(error, user, context);
   });

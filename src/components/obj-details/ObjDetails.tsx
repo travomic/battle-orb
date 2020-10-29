@@ -12,7 +12,10 @@ export const ObjDetails = ({
   title
 }: IProps) => {
   const [obj, setObj] = React.useState(src);
-  console.log('setObj', setObj);
+
+  React.useEffect(() => {
+    setObj(src);
+  }, [src]);
   
   return (
     <details className={className}>

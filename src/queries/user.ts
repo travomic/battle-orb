@@ -15,9 +15,9 @@ export const SET_USER_DATA_ATTR = `
 `;
 
 export const GET_USER_DATA = `
-  query GetUserData($authName: String!) {
+  query GetUserData($userId: uuid!) {
     ${DB_NAME}_user(where: {
-      auth_name: {_eq: $authName}
+      user_id: {_eq: $userId}
     }) {
       user_data
     }
