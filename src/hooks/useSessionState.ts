@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { JWT_URI } from '../constants';
 
@@ -9,9 +9,9 @@ export type TSessionState = {
 
 export const useSessionState = (): TSessionState => {
   const { user } = useAuth0();
-  const [sessionState, setSessionState] = React.useState({});
+  const [sessionState, setSessionState] = useState<any>({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSessionState(user?.[JWT_URI] ?? {});
   }, [user]);
 
