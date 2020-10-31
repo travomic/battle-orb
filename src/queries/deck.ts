@@ -1,0 +1,1 @@
+export const NON_DECK_QUERY = ``;
