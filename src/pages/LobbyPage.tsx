@@ -17,7 +17,7 @@ export const LobbyPage = ({streams}: IProps) => {
     <section>
       <OrbBox rows={4} scale={1} />
       <AuthGate>
-        {/* <ChatBox channel="#lobby" /> */}
+        <ChatBox channel="#lobby" />
       </AuthGate>
     </section>
   );

@@ -1,6 +1,4 @@
-import makeSubject from 'callbag-subject';
-import observe from 'callbag-observe';
-
+import { makeSubject, pipe, subscribe } from 'wonka';
 import { makeTimeObserver } from './drivers/time';
 
 export function makeStreams() {
@@ -13,4 +11,4 @@ export function makeStreams() {
 
 export const streams = makeStreams();
 
-observe(makeTimeObserver())(streams.time$);
+pipe(streams.time$.source, subscribe(makeTimeObserver()));

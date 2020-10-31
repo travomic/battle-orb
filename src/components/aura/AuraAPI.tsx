@@ -5,12 +5,12 @@ import {
   dedupExchange,
   cacheExchange,
   fetchExchange,
-  // subscriptionExchange,
+  subscriptionExchange,
   Provider as QueryProvider,
 } from 'urql';
 import { fetchOptionsExchange } from './fetchOptionsExchange';
 import { retryExchange } from '@urql/exchange-retry';
-// import { SubscriptionClient } from '../../modules/subscriptions-transport-ws';
+import { SubscriptionClient } from '../../modules/subscriptions-transport-ws';
 
 interface IProps {
   apiURI: string;
@@ -49,20 +49,15 @@ export const AuraAPI = ({
   };
 
   // console.log('CREATE SubscriptionClient:', apiURI);
-  // const subscriptionClient = new SubscriptionClient(
-  //   `wss:${apiURI}`,
-  //   {
-  //     reconnect: true,
-  //     connectionParams: {
-  //       authToken: async () => {
-  //         return await getAccessTokenSilently().then (accessToken => {
-  //           // console.log('ACCESS TOKEN:', accessToken);
-  //           return accessToken;
-  //         })
-  //       }
-  //     }
-  //   }
-  // );
+  const subscriptionClient = new SubscriptionClient(
+    `wss:${apiURI}`,
+    {
+      reconnect: true,
+      connectionParams: async () => ({
+        headers: await getAuthenticatedHeaders({})
+      })
+    }
+  );
 
   const graphQLClient = createClient({
     url: `https:${apiURI}`,
@@ -71,7 +66,6 @@ export const AuraAPI = ({
       cacheExchange,
       retryExchange(retryOptions),
       fetchOptionsExchange(async (fetchOptions: any) => {
-        console.log('incoming fetchOptions:', fetchOptions);
         const result = {
           ...fetchOptions,
           headers: isAuthenticated ? await getAuthenticatedHeaders(fetchOptions?.headers) : {},
@@ -79,9 +73,11 @@ export const AuraAPI = ({
         return Promise.resolve(result);
       }),
       fetchExchange,
-      // subscriptionExchange({
-      //   forwardSubscription: operation => subscriptionClient.request(operation)
-      // })
+      subscriptionExchange({
+        forwardSubscription: (operation: any) => {
+          return subscriptionClient.request(operation);
+        },
+      }),
     ],
   });
 

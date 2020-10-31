@@ -24,8 +24,6 @@ export const UserMenu = ({ logoutURL }: IProps) => {
   } = useAuth0();
 
   const [{
-    // fetching, 
-    // stale, 
     error: userDataError, 
     data: userDataRoot 
   }, getUserData] = useQuery({
@@ -40,13 +38,11 @@ export const UserMenu = ({ logoutURL }: IProps) => {
     )
   });
 
-  const [dataAttrResult, setDataAttr] = useMutation(SET_USER_DATA_ATTR);
+  const [{ fetching: busySettingAttr }, setDataAttr] = useMutation(SET_USER_DATA_ATTR);
 
   if (isLoading) {
     return <></>;
   }
-
-  console.table(sess);
 
   if (userError || userDataError) {
     return (<div>
@@ -60,7 +56,6 @@ export const UserMenu = ({ logoutURL }: IProps) => {
   }
 
   const userData = userDataRoot?.[`${DB_NAME}_user`][0].user_data;
-  // console.log("USER DATA:", userData);
 
   const handleLogout = () => {
     logout({
@@ -76,10 +71,6 @@ export const UserMenu = ({ logoutURL }: IProps) => {
       }
     }, SELF_OPTIONS);
   }
-
-  // console.log('userData fetching/stale:', fetching, stale);
-  console.log('dataAttrResult:', dataAttrResult);
-  // console.log('sessState:', sess);
 
   return (
     <nav className={classes.menu}>
@@ -104,7 +95,7 @@ export const UserMenu = ({ logoutURL }: IProps) => {
           GET DATA
         </button>
 
-        <button onClick={handleTap}>
+        <button onClick={handleTap} disabled={busySettingAttr}>
           TAP ME
         </button>
 

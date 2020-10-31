@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useMutation, useSubscription } from 'urql';
 import { SEND_CHAT, SUBSCRIBE_TO_CHAT } from '../../queries/chat';
-import { useSessionState } from '../../hooks';
+import { useSanitize, useSessionState } from '../../hooks';
+import { DB_NAME } from '../../constants';
 
 interface IProps {
   channel: string;
@@ -9,14 +10,14 @@ interface IProps {
 }
 
 const handleSubscription = (chatLog: any[] = [], response: any) => {
-  console.log('CHAT RESPONSE:', response);
-  return [response.chat, ...chatLog];
+  return response[`${DB_NAME}_chat`];
 };
 
 export const ChatBox = ({ className, channel }: IProps) => {
+  const clean = useSanitize();
   const sess = useSessionState();
   const chatTextRef = React.useRef<any>(null);
-  const [sendChatResult, sendChat] = useMutation(SEND_CHAT);
+  const [{ fetching: busySending }, sendChat] = useMutation(SEND_CHAT);
 
   const [chat] = useSubscription({ 
     query: SUBSCRIBE_TO_CHAT,
@@ -25,30 +26,35 @@ export const ChatBox = ({ className, channel }: IProps) => {
 
   const sendMessage = () => {
     const text = chatTextRef.current?.value ?? 'NO VALUE';
-    console.log('channel:', channel, text);
+
     sendChat({
+      fromUserId: sess.userUUID,
       target: channel,
-      text: text,
-      userId: sess.userUUID
+      message: text,
     });
+
     chatTextRef.current.value = '';
   }
 
-  console.log('sendChatResult:', sendChatResult);
+  const handleTextKeyDown = (ev: any) => {
+    if (ev.key === 'Enter') {
+      sendMessage();
+    }
+  }
 
   return (<div className={className}>
     {(!chat.data) ? 
       <p>No new messages</p> :
       <ul>
-        {chat.data.map(msg => (
+        {chat.data.map((msg: any) => (
           <p key={msg.chat_id}>
-            {msg.fromUser.user_name}: "{JSON.stringify(msg.message)}"
+            <b>{msg.fromUser.user_name}</b>: {clean(msg.message)}
           </p>
         ))}
       </ul>
     }
 
-    <input ref={chatTextRef} type="text" />
-    <button onClick={sendMessage}>SEND</button>
+    <input ref={chatTextRef} onKeyDown={handleTextKeyDown} type="text" />
+    <button disabled={busySending} onClick={sendMessage}>SEND</button>
   </div>);
 }

@@ -1,32 +1,42 @@
 import { DB_NAME } from '../constants';
 
 export const SUBSCRIBE_TO_CHAT = `
-  subscription ChatSubscription($target: String!) {
+  subscription ChatterChannel($target: String!) {
     ${DB_NAME}_chat(
       where: {target: {_eq: $target}}, 
-      order_by: { sent_at: desc }
+      order_by: {sent_at: desc},
     ) {
-      target
-      sent_at
+      chat_id
       message
       fromUser {
         user_name
-        user_id
       }
+      target
+      sent_at
     }
   }
 `;
 
 export const SEND_CHAT = `
-  mutation SendChat($userId: uuid!, $target: String!, $text: String!) {
-    insert_${DB_NAME}_chat_one(object: {
+  mutation SendChat(
+    $fromUserId: uuid!,
+    $target: String!,
+    $message: String!,
+  ) {
+    insert_battleOrb_chat(objects: {
+      from_user_id: $fromUserId,
       target: $target,
-      from_user_id: $userId, 
-      message: $text,
+      message: $message,
     }) {
-      target
-      message
-      sent_at
+      returning {
+        chat_id
+        message
+        fromUser {
+          user_name
+        }
+        target
+        sent_at
+      }
     }
   }
 `;
