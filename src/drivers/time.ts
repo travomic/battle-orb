@@ -1,24 +1,22 @@
 import dropRepeats from 'callbag-drop-repeats';
-import callbagOf from 'callbag-of';
-import mapTo from 'callbag-map-to';
 import startWith from 'callbag-start-with';
-import { combine, flatten, fromEvent, interval, map, merge, pipe } from 'callbag-basics-esmodules';
+import { combine, flatten, fromDomEvent, fromValue, interval, map, merge, pipe } from 'wonka';
 
 const isVisible = () => document.visibilityState === 'visible';
 const isOnline = () => window.navigator.onLine;
 
 const setupTimeStreams = () => {
   const visible$: any = pipe(
-    fromEvent(document, 'visibilitychange' as any),
+    fromDomEvent(document as any, 'visibilitychange' as any),
     map(isVisible),
     startWith(isVisible())
   );
 
   const online$: any = pipe(
-    merge(
-      pipe(fromEvent(window, 'online' as any), mapTo(true)),
-      pipe(fromEvent(window, 'offline' as any), mapTo(false))
-    ),
+    merge([
+      pipe(fromDomEvent(window as any, 'online' as any), map(() => true)),
+      pipe(fromDomEvent(window as any, 'offline' as any), map(() => false))
+    ]),
     startWith(isOnline())
   );
 
@@ -32,7 +30,7 @@ const setupTimeStreams = () => {
           interval(1000),
           map(() => ({ type: 'TICK' })),
           startWith({ type: 'RESUME' })
-        ) : callbagOf({ type: 'PAUSE' })
+        ) : fromValue({ type: 'PAUSE' })
     ),
     flatten
   )

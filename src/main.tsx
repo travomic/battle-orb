@@ -4,8 +4,8 @@ import { Auth0Provider } from '@auth0/auth0-react';
 import { Router } from '@reach/router';
 
 import './index.css';
-import { AuLayout, UserMenu } from './components';
-import { GamePage, LobbyPage } from './pages';
+import { AuraLayout, UserMenu } from './components';
+import { GamePage, LobbyPage, UserPage } from './pages';
 import { streams } from './streams';
 
 ReactDOM.render(
@@ -16,7 +16,7 @@ ReactDOM.render(
       domain={import.meta.env.VITE_AUTH0_DOMAIN}
       redirectUri={import.meta.env.VITE_AUTH0_REDIRECT_URI}
     >
-      <AuLayout
+      <AuraLayout
         apiURI={import.meta.env.VITE_GRAPHQL_URI}
         title={`battle.orb.zone`}
         year={2020}
@@ -26,8 +26,9 @@ ReactDOM.render(
         <Router>
           <LobbyPage path="/" streams={streams} />
           <GamePage path="/game" streams={streams} />
+          <UserPage path="/user" streams={streams} />
         </Router>
-      </AuLayout>
+      </AuraLayout>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')

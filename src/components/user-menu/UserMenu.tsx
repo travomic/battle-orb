@@ -1,5 +1,10 @@
 import * as React from 'react';
 import { useAuth0 } from "@auth0/auth0-react";
+import { useMutation, useQuery } from 'urql';
+import { AuthGate, ObjDetails } from '../index';
+import { useSessionState } from '../../hooks';
+import { DB_NAME, SELF_CONTEXT, SELF_OPTIONS } from '../../constants';
+import { GET_USER_DATA, SET_USER_DATA_ATTR } from '../../queries/user';
 import classes from './user-menu.module.styl';
 
 interface IProps {
@@ -7,8 +12,10 @@ interface IProps {
 }
 
 export const UserMenu = ({ logoutURL }: IProps) => {
+  const sess = useSessionState();
+
   const { 
-    error,
+    error: userError,
     isAuthenticated,
     isLoading,
     user,
@@ -16,20 +23,53 @@ export const UserMenu = ({ logoutURL }: IProps) => {
     logout
   } = useAuth0();
 
+  const [{
+    error: userDataError, 
+    data: userDataRoot 
+  }, getUserData] = useQuery({
+    ...SELF_CONTEXT,
+    query: GET_USER_DATA,
+    variables: { userId: sess?.userUUID },
+    pause: (true ||
+      isLoading ||
+      !isAuthenticated ||
+      !sess?.userUUID ||
+      !!userError
+    )
+  });
+
+  const [{ fetching: busySettingAttr }, setDataAttr] = useMutation(SET_USER_DATA_ATTR);
+
   if (isLoading) {
     return <></>;
   }
 
-  if (error) {
-    return (<strong>
-      Dang<i>!</i> Something didn't work as expected.
-    </strong>);
+  if (userError || userDataError) {
+    return (<div>
+      <strong>
+        Dang<i>!</i> Something didn't work as expected.
+      </strong>
+
+      <pre>{JSON.stringify(userError, null, 2)}</pre>
+      <pre>{JSON.stringify(userDataError, null, 2)}</pre>
+    </div>);
   }
+
+  const userData = userDataRoot?.[`${DB_NAME}_user`][0].user_data;
 
   const handleLogout = () => {
     logout({
       returnTo: logoutURL
     });
+  }
+
+  const handleTap = () => {
+    setDataAttr({
+      authName: user?.sub,
+      value: { 
+        tapCount: (userData?.tapCount ?? 0) + 1 
+      }
+    }, SELF_OPTIONS);
   }
 
   return (
@@ -47,6 +87,20 @@ export const UserMenu = ({ logoutURL }: IProps) => {
       </> : <>
         <button onClick={loginWithRedirect}>LOG-IN</button>
       </>}
+
+      <AuthGate>
+        <ObjDetails className={classes.details} title="Data" src={userData} />
+        
+        <button onClick={getUserData}>
+          GET DATA
+        </button>
+
+        <button onClick={handleTap} disabled={busySettingAttr}>
+          TAP ME
+        </button>
+
+        <ObjDetails className={classes.details} title="User" src={user} />
+      </AuthGate>
     </nav>
   );
 }

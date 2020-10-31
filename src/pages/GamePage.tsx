@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link, RouteComponentProps } from '@reach/router';
 import { useQuery } from 'urql';
-import { AuthGuard } from '../components';
+import { AuthGate } from '../components';
 
 interface IProps extends RouteComponentProps {
   streams: any;
@@ -25,7 +25,7 @@ export const GamePage = ({ streams }: IProps) => {
   const { data, fetching, error } = result;
 
   return (<>
-    <AuthGuard>
+    <AuthGate>
       {fetching ? <p>Loading...</p> :
       error ? <p>Oh no... {error.message}</p> :
       <ul>
@@ -37,7 +37,7 @@ export const GamePage = ({ streams }: IProps) => {
       </ul>}
 
       <button onClick={reexecuteQuery}>TRY AGAIN</button>
-    </AuthGuard>
+    </AuthGate>
 
     <Link to="/">Go to <b>LOBBY</b> screen.</Link>
 

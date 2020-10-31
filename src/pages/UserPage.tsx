@@ -1,24 +1,21 @@
 import * as React from 'react';
 import { RouteComponentProps, useLocation } from '@reach/router';
-import { AuthGate, ChatBox, OrbBox } from '../components';
 
 interface IProps extends RouteComponentProps {
   streams: any;
 }
 
-export const LobbyPage = ({streams}: IProps) => {
+export const UserPage = ({streams}: IProps) => {
   const location = useLocation();
-
+  
   React.useEffect(() => {
     console.log("STREAMS:", streams);
+    console.log('LOCATION:', location);
   }, [streams]);
 
   return (
     <section>
-      <OrbBox rows={4} scale={1} />
-      <AuthGate>
-        <ChatBox channel="#lobby" />
-      </AuthGate>
+      <pre>{JSON.stringify(location, null, 2)}</pre>
     </section>
   );
 };
