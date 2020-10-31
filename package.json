@@ -19,6 +19,7 @@
     "dompurify": "^2.2.0",
     "graphql": "^15.3.0",
     "immer": "^7.0.9",
+    "oceanwind": "^0.9.0",
     "symbol-observable": "^2.0.3",
     "urql": "^1.10.1",
     "wonka": "^4.0.15"

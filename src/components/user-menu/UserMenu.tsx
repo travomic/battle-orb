@@ -6,6 +6,7 @@ import { useSessionState } from '../../hooks';
 import { DB_NAME, SELF_CONTEXT, SELF_OPTIONS } from '../../constants';
 import { GET_USER_DATA, SET_USER_DATA_ATTR } from '../../queries/user';
 import classes from './user-menu.module.styl';
+import styles from './user-menu.styles';
 
 interface IProps {
   logoutURL: string;
@@ -89,17 +90,19 @@ export const UserMenu = ({ logoutURL }: IProps) => {
       </>}
 
       <AuthGate>
-        <ObjDetails className={classes.details} title="Data" src={userData} />
-        
-        <button onClick={getUserData}>
-          GET DATA
-        </button>
+        <div className={styles.menu}>
+          <ObjDetails className={classes.details} title="Data" src={userData} />
 
-        <button onClick={handleTap} disabled={busySettingAttr}>
-          TAP ME
-        </button>
+          <button onClick={getUserData}>
+            GET DATA
+          </button>
 
-        <ObjDetails className={classes.details} title="User" src={user} />
+          <button onClick={handleTap} disabled={busySettingAttr}>
+            TAP ME
+          </button>
+
+          <ObjDetails className={classes.details} title="User" src={user} />
+        </div>
       </AuthGate>
     </nav>
   );
