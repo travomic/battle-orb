@@ -1,0 +1,1 @@
+export const NON_PAGE_QUERY = ``;
